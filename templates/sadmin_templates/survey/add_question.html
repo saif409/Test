@@ -1,0 +1,111 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+<div class="main-content" id="panel" style="margin-top:40px;">
+
+    {% if messages %}
+    <div class="messages" style="margin:20px;">
+        {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<div class="container-fluid mt--6" style="padding-bottom: 100px">
+    <div class="row">
+        <div class="col-xl-12 order-xl-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-10">
+                            <h2>Add more questions '<i>{{ survey_obj.title }}</i>' </h2>
+                        </div>
+                        <div class="col-2">
+                            <a href="{% url 'update_survey' id=survey_obj.id %}">
+                                <button class="btn btn-outline-secondary">< Go Back</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <h4 class="form-control-label" for="input-question">Question</h4>
+                                    <input id="input-question" class="form-control" name="question" type="text"
+                                           placeholder="Type Question.." required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h4 class="form-control-label">Answer Type</h4>
+                                    <select class="form-control" name="answer_type" required>
+                                        {% for type in ans_type%}
+                                        <option value="{{type.id}}">{{ type.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h4 class="form-control-label" for="input-answer-option">Answer Option</h4>
+                                    <input id="input-answer-option" name="answer_option" class="form-control"
+                                           name="answer_option" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary right" type="submit">Add Question</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-xl-12 order-xl-1" style="margin-top:30px;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-11">
+                            <h3 class="mb-0">Already Added Questions</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="table-responsive" style="height:100%">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="SL NO">SN</th>
+                                    <th scope="col" class="sort" data-sort="title">Question</th>
+                                    <th scope="col" class="sort" data-sort="title">Answer Type</th>
+
+                                </tr>
+                                </thead>
+                                <tbody class="list">
+                                {% for qa in survey_questions %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ qa.question_title }}</td>
+                                    <td>{{ qa.ans_type }}</td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'sadmin_templates/footer.html' %}

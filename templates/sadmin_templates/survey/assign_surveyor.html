@@ -1,0 +1,148 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+
+<div class="main-content" id="panel" style="margin-top:5px;">
+    <div class="col-lg-12">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {{message}}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-10">
+                                 <h2>Assigning Data Collector for <i>'{{survey.title }}'</i> Form</h2>
+                            </div>
+                            <div class="col-2">
+                                <a href="{% url 'update_survey' id=survey_obj.id %}">
+                                    <button class="btn btn-outline-secondary fa fa-edit"> Update Form</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <h3>Select & Assign</h3>
+                            <br/>
+                            <table id="table-product" class="table">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Data Collector</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="surveyorTableId">
+                                <tr>
+                                    <td>{{form}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <input id="input_add" type="button" name="add" value="Click to Add More"
+                                   class="btn btn-secondary" required>
+
+
+                            <button class="btn btn-primary float-right" type="submit" style="">Complete Assigning</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-xl-12 order-xl-1" style="margin-top:30px;">
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h3 class="mb-0">Already Assigned Data Collectors</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+                <div class="table-responsive" style="height:100%">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>SN</th>
+                            <th>Data Collector</th>
+                            <th>Contact</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+                        {% for u in survey_user %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><small>{{ u.user }}</small> <br/>
+                                {{ u.name }}
+                            </td>
+                            <td>
+                                {{u.phone}} <br/>
+                                 {{u.email}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#input_add").click(function () {
+        let formCount = parseInt($('#id_form-TOTAL_FORMS').val());
+        let id_counter =  "id_form-"+formCount+"-Select_Username";
+        let removeBtn = `<td> <input  type="button" onClick='removeItems("${id_counter}")'  name="add"  value="  Remove  " class="tr_clone_add btn btn-danger data_input"> </td>`;
+        {##}
+        {#var html = `<tr id="${id_counter}">#}
+        {#                <td>{{ form.empty_form }}</td>#}
+        {#                <td> <input  type="button" onClick='removeItems("${id_counter}")'  name="add"  value="  Remove  " class="tr_clone_add btn btn-danger data_input"> </td>#}
+        {#             </tr>`;#}
+
+        let surForm = `{{ form.empty_form }}`;
+        let trRemoved = $(surForm).html();
+
+        let html = `<tr id="${id_counter}">
+                       ${trRemoved}
+                       <td> <input  type="button" onClick='removeItems("${id_counter}")'  name="add"  value="  Remove  " class="tr_clone_add btn btn-danger data_input"> </td>
+                    </tr>`;
+
+        html = html.replace(/__prefix__/g, formCount);
+        $('#id_form-TOTAL_FORMS').val(formCount + 1);
+        $('#surveyorTableId').append(html);
+    });
+
+    function removeItems(id_counter) {
+        console.log(id_counter);
+        let row_element = document.getElementById(id_counter);
+        row_element.remove();
+        let formCount = parseInt($('#id_form-TOTAL_FORMS').val());
+        $("#id_form-TOTAL_FORMS").val(formCount - 1).change();
+    }
+
+</script>
+
+{% include 'sadmin_templates/footer.html' %}

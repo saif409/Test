@@ -1,0 +1,109 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+{% load findAnswers %}
+{% load isImage %}
+
+<div class="main-content" id="panel" style="margin-top:40px;">
+    {% if messages %}
+    <div class="messages" style="margin:20px;">
+        {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card">
+
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h2>Responses of <i>'{{survey.title}}'</i> <i class="fa fa-smile-o" style="color: green"
+                                                                              aria-hidden="true"></i></h2>
+                            </div>
+                        </div>
+                        <a class="btn btn-outline-secondary btn-sm float-right" href="{% url 'survey_list' %}">< Go
+                            Back</a>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    {% for q in data %}
+                                    <th>{{forloop.counter}}. {{q.questions}}</th>
+                                    {% endfor %}
+                                </tr>
+
+
+                                <tr>{% for q in data %}
+                                    <td>
+
+                                        {% for ansx in q.ans %}
+
+                                        {% if 'ImageField' in ansx.0 %}
+                                        <img src="/images/{{ansx.1}}" id="myImg" alt="{{ansx.1}}"
+                                             style="height: 50px; width: 90px; border: 1px solid green"/>
+                                        <hr/>
+                                        {% else %}
+                                        <p style="color: green">{{ansx.1}}</p>
+
+                                        <hr/>
+                                        {% endif %}
+
+                                        {%endfor%}
+
+
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+
+
+                            </table>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+    <!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("myImg");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+</script>
+
+     {% include 'sadmin_templates/footer.html' %}

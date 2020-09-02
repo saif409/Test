@@ -1,0 +1,120 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+<div class="row" style="margin-top:40px;">
+    <div class="col-lg-4">
+        <div class="widget style1 navy-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-briefcase fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span> Total Forms Created</span>
+                    <h2 class="font-bold">{{ total_survey_create }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="widget style1 lazur-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-users fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span>Total Data Collector Created</span>
+                    <h2 class="font-bold">{{ total_surveyor_create }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="widget style1 yellow-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-envelope-o fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span> Total Data Received </span>
+                    <h2 class="font-bold">{{ total_surveyor_received }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="widget style1 purple-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-book fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span> Total Form Question Created</span>
+                    <h2 class="font-bold">{{ total_question_created }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if messages %}
+<div class="messages" style="margin-right:32px;">
+    {% for message in messages %}
+    <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="row">
+
+    <div class="row container-fluid" style="margin-top:30px;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <h2 class="text-blod" style="padding-left:20px;">Recently Created Forms</h2>
+                    </div>
+                </div>
+                <div class="container" style="margin-top:30px;">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="widget style1 navy-bg">
+                           <tr>
+                                    <th>SN</th>
+                                    <th>Form Name</th>
+                                    <th>Questions/Location</th>
+                                    <th>Responses</th>
+                                </tr>
+                            </thead>
+
+                            {% for single_survey in all_survey %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'survey_view' id=single_survey.id %}">
+                                    {{ single_survey.title|truncatechars:40 }} </a> <br/>
+                                    <small>Created at {{ single_survey.survey_date }}</small>
+                                </td>
+                                <td>
+                                    {{single_survey.question.all.count}} Questions<br/>
+                                    <small> {{ single_survey.area }}</small>
+                                </td>
+                                <td>
+                                    <a href="{% url 'view_survey_answer' id=single_survey.id %}"
+                                       class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> View Responses </a>
+                                </td>
+
+
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include 'sadmin_templates/footer.html' %}

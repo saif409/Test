@@ -1,0 +1,160 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+
+
+
+
+ <div class="main-content" id="panel" style="margin-top:10px;">
+     {% if messages %}
+        <div class="messages" style="margin:20px;">
+            {% for message in messages %}
+                <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+          <div class="card">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h2>Update Profile : {{ s_user.user.first_name }} {{ s_user.user.last_name }}</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form method="POST">
+                  {% csrf_token %}
+                <h3>User information</h3>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-first-name">First Name</label>
+                        <input type="text" name="fname" id="input-first-name" pattern="[A-Za-z\d\,]{3,100}"
+                               title="First Name must be between 3 and 40 characters in length and contains only letters" class="form-control" value="{{ s_user.user.first_name }}" >
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-last-name">Last Name</label>
+                        <input type="text" name="lname" id="input-last-name" pattern="[A-Za-z\d\,]{3,100}"
+                               title="last Name must be between 3 and 40 characters in length and contains only letters" class="form-control" value="{{ s_user.user.last_name }}" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Username</label>
+                        <input type="text" name="uname" id="input-username" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,40}$"
+                               title="Username must be between 3 and 25 characters in length and containing format string+string|number" class="form-control" value="{{ s_user.user.username }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email</label>
+                        <input type="email" name="email" id="input-email" class="form-control" value="{{ s_user.email }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-password">Password</label>
+                        <input type="text" name="password" id="input-password" class="form-control" value="">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-phone">Phone</label>
+                        <input type="text" name="phone" id="input-phone" pattern="[0-9]{11}"
+                               title="Phone number must be between 11 characters in length and contains only number" class="form-control" value="{{ s_user.phone}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-designation">Designation</label>
+                        <input type="text" name="designation" id="input-designation" pattern="[A-Za-z\d\,]{2,100}"
+                             title="desgination must be between 3 to 40 characters in length and contains string value" class="form-control" value="{{ s_user.designation}}">
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+
+                <hr class="my-4" />
+                <!-- Address -->
+                <h3>Contact information</h3>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input id="input-address" name="address" pattern="[A-Za-z\d\,]{6,150}"
+                               title="Address contains only letters,number or periods" class="form-control" type="text" value="{{ s_user.address }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Country</label>
+                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{2,100}"
+                               title="Country contains only letters" class="form-control" value="{{ s_user.country }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-division">Division</label>
+                        <input type="text" name="division" id="input-division" pattern="[A-Za-z,]{2,100}"
+                               title="Division contains only letters" class="form-control" value="{{ s_user.division }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-district">District</label>
+                        <input type="text" name="district" id="input-district"  pattern="[A-Za-z,]{2,100}"
+                               title="District contains only letters" class="form-control" value="{{ s_user.district }}" >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-sub-district">Sub District</label>
+                        <input type="text" name="sub_district" id="input-sub-district" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Sub District contains only letters,number or periods" class="form-control"  value="{{ s_user.sub_district }}" >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-area">Area</label>
+                        <input type="text" name="area" id="input-area" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Area contains only letters,number or periods" class="form-control" value="{{ s_user.area }}" >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <button class="btn btn-primary float-right" type="submit" style="">Update</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% include 'sadmin_templates/footer.html' %}

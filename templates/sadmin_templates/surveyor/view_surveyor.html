@@ -1,0 +1,122 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+<div class="main-content" id="panel" style="margin-top:20px;">
+
+
+    <div class="container-fluid mt--6">
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Profile  : {{ single_surveyor.user.first_name}} {{ single_surveyor.user.last_name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">User information</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">First name</label>
+                                            <input disabled type="text" id="input-first-name" class="form-control" value="{{ single_surveyor.user.first_name}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-last-name">Last name</label>
+                                            <input disabled type="text" id="input-last-name" class="form-control"  value="{{ single_surveyor.user.last_name}}">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Username</label>
+                                            <input disabled type="text" id="input-username" class="form-control" value="{{ single_surveyor.user.username}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Email address</label>
+                                            <input disabled type="email" id="input-email" class="form-control" value="{{ single_surveyor.email }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-designation">Designation</label>
+                                            <input disabled type="text" id="input-designation" class="form-control"  value="{{ single_surveyor.designation }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-phone">Phone</label>
+                                            <input disabled type="text" id="input-phone" class="form-control" value="{{ single_surveyor.phone}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <hr class="my-4" />
+                            <!-- Address -->
+                            <h6 class="heading-small mb-4">Contact information</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-address">Address</label>
+                                            <input disabled id="input-address" class="form-control" value="{{ single_surveyor.address}}" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-district">District</label>
+                                            <input disabled type="text" id="input-district" class="form-control" value="{{ single_surveyor.district}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-division">Division</label>
+                                            <input disabled type="text" id="input-division" class="form-control"  value="{{ single_surveyor.division}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-country">Country</label>
+                                            <input disabled type="text" id="input-country" class="form-control" value="{{ single_surveyor.country}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-country">Area</label>
+                                            <input disabled type="text" id="input-country" class="form-control" value="{{ single_surveyor.area}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% include 'sadmin_templates/footer.html' %}

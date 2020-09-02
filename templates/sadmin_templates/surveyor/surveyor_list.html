@@ -1,0 +1,128 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+<div class="main-content" id="panel" style="margin-top:10px;">
+ {% if messages %}
+    <div class="messages" style="margin-right:32px;">
+    {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="row container-fluid" style="margin-top:10px;">
+    <div class="col-md-12" >
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <h1 class="text-blod" style="padding-left:20px;">All Data Collectors</h1>
+                </div>
+                <div class="col-md-12" style="margin-top:30px;">
+                    <div class="row align-items-center">
+                    <div class="col-12">
+                    <!--<div class="col-lg-offset-6">-->
+                        <!--<a class="btn btn-primary btn-sm float-right"-->
+                           <!--href="{% url 'surveyor_list' filter='active' %}">-->
+                            <!--Active Surveyor-->
+                        <!--</a>-->
+                        <!--<a class="mr-2 btn btn-primary btn-sm float-right"-->
+                           <!--href="{% url 'surveyor_list' filter='inactive' %}">-->
+                            <!--InActive Surveyor-->
+                        <!--</a>-->
+
+                    <!--</div>-->
+                </div>
+                </div>
+                </div>
+                </div>
+
+
+    <div class="container" style="margin-top:30px;">
+        <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                <tr>
+                    <th  data-sort="name">Sl no</th>
+
+                    <th data-sort="name">Username</th>
+                    <th  data-sort="name">Phone</th>
+                    <th  data-sort="name">Email</th>
+                    <th  data-sort="name">Designation</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                            <tbody class="list">
+                                {% for s in surveyor %}
+
+                                <tr>
+                                    <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter}}</span></th>
+                                    <td><span class="status">{{ s.user.username }}</span></td>
+                                    <td>
+                                        <span class="status">{{ s.phone }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ s.email}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ s.designation }}</span>
+                                    </td>
+                                   <td style="width: 10%">
+                                            <div class="btn-group">
+                                                <a href="{% url 'surveyor_view' id=s.id %}" style="margin-right: 5px;"><button class="btn btn-primary fa fa-eye"></button></a>
+                                                <a href="{% url 'surveyor_update' pid=s.id %}" style="margin-right: 5px;"><button class="btn btn-info fa fa-edit"></button></a>
+                                                <a href="{% url 'delete_surveyor' pid=s.id %}" data-toggle="modal" id="{{s.id}}" data-target="#surve_delete{{s.id}}"><button class="btn btn-danger fa fa-trash"></button></a>
+                                            </div>
+                                        </td>
+                                </tr>
+                                    <div class="modal fade" id="surve_delete{{s.id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Are You Sure To Delete The Following Surveyor?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">{{ s.name }}</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-primary" href="{% url 'delete_surveyor' pid=s.id %}">Confirm Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                    <div class="card-footer py-4" style="margin-top:30px;">
+                      <nav aria-label="...">
+                         <div class="col-lg-offset-9">
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if surveyor.has_previous %}
+                                        <a href="?page=1">&laquo; first || </a>
+                                        <a href="?page={{ surveyor.previous_page_number }}">previous</a>
+                                    {% endif %}
+                                    <span class="current">
+                                        Page {{ surveyor.number }} of {{ surveyor.paginator.num_pages }}.
+                                    </span>
+                                    {% if surveyor.has_next %}
+                                        <a href="?page={{ surveyor.next_page_number }}">next ||</a>
+                                        <a href="?page={{ surveyor.paginator.num_pages }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                             </div>
+                          </div>
+                      </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+{% include 'sadmin_templates/footer.html' %}

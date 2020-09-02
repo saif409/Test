@@ -1,0 +1,11 @@
+*.pyc
+__pycache__/*
+.idea
+.vs-code
+db.*
+venv
+case/migrations/
+cause_list/migrations/
+system/migrations/
+users_auth/migrations
+address/migrations

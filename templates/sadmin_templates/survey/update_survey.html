@@ -1,0 +1,177 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+
+<div class="main-content" id="panel" style="margin-top:40px;">
+    {% if messages %}
+    <div class="messages" style="margin:20px;">
+        {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6" style="padding-bottom: 100px">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h2>Updating <i>'{{ get_survey.title }}'</i> Form</h2>
+                            </div>
+                        </div>
+                        <a class="btn btn-outline-secondary btn-sm float-right" href="{% url 'survey_list' %}">< Go
+                            Back</a>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <h3>Change Form Name </h3>
+                            <input type="text" name="title" class="form-control" value="{{ get_survey.title }}"
+                                   required>
+                            <br><br>
+                            <h3>Data Collectors <button class="btn btn-primary btn-sm"><a
+                                                    href="{% url 'assign_surveyor' id=get_survey.id %}"
+                                                    style="color:#fff;">Add New </a></button></h3>
+                            <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Sl no</th>
+                                            <th scope="col">Data Collector</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        {% for u in survey_users %}
+                                        <tbody class="list">
+                                        <tr>
+                                            <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter}}</span>
+                                            </th>
+                                            <td><small><i>{{u.user}}</i></small> <br/>
+                                                {{u.name }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'remove_assigned_surveyor' id=get_survey.id user_id=u.id %}"
+                                                   data-toggle="modal" id="{{u.id}}"
+                                                   data-target="#surve_delete{{u.id}}">
+                                                    <button id="delete_survey"
+                                                            class="btn btn-danger fa fa-trash"> Remove</button>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+
+                                        <div class="modal fade" id="surve_delete{{u.id}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" >Are you sure about deleting the Data Collector?</h5>
+                                                        <button class="close" type="button" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body"><small>username: <i>{{u.user}}</i></small> <br/>
+                                                    Full Name: {{u.name }} <br/>
+                                                        Phone: {{u.phone}}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-danger" type="button"
+                                                                data-dismiss="modal">Cancel
+                                                        </button>
+                                                        <a class="btn btn-primary"
+                                                           href="{% url 'remove_assigned_surveyor' id=get_survey.id user_id=u.id %}">Confirm
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </tbody>
+                                        {% endfor %}
+
+
+
+                                    </table>
+                                </div>
+                            <br/> <br/>
+                            <h3>Questions <button class="btn btn-primary btn-sm">
+                                                <a href="{% url 'question_add' id=get_survey.id  %}"
+                                                   style="color:#fff;">Add New</a>
+                                            </button></h3>
+                             <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col" class="sort" data-sort="name">Sl no</th>
+                                            <th scope="col" class="sort" data-sort="name">Question Title</th>
+                                            <th scope="col" class="sort" data-sort="name">Answer Type</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                        {% for q in survey_question %}
+
+                                        <tr>
+                                            <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter}}</span>
+                                            </th>
+                                            <td>
+                                                <span class="status">{{ q.question_title }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="status">{{ q.ans_type }}</span>
+                                            </td>
+                                            <td>
+                                                <a href="" data-toggle="modal" id="{{q.id}}"
+                                                   data-target="#surve_delete{{q.id}}">
+                                                    <button id="delete_Question"
+                                                            class="btn btn-danger fa fa-trash"></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <div class="modal fade" id="surve_delete{{q.id}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure about deleting the question?</h5>
+                                                        <button class="close" type="button" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">Question: {{ q.question_title }}</div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-danger" type="button"
+                                                                data-dismiss="modal">Cancel
+                                                        </button>
+                                                        <a class="btn btn-primary"
+                                                           href="{% url 'remove_assigned_question' id=get_survey.id question_id=q.id %}">Confirm
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            <div class="col-lg-12">
+                                <button class="btn btn-primary float-right" type="submit" style="">Confirm Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% include 'sadmin_templates/footer.html' %}

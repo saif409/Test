@@ -1,0 +1,66 @@
+{% include 'sadmin_templates/header.html' %}
+{% load static %}
+
+
+<div class="main-content" id="panel" style="margin-top:5px;">
+<div class="col-lg-12" >
+        {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+</div>
+
+
+    <!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+
+    <div class="col-xl-12 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Update Country</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+              {% csrf_token %}
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Update Country</label>
+                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{3,40}"
+                               title="First Name must be between 3 and 40 characters in length and contains only letters" class="form-control" value="{{ get_country.country_name}}" required >
+                      </div>
+                        <button class="btn btn-primary float-right" type="submit" style="">Update</button>
+                    </div>
+                  </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% include 'sadmin_templates/footer.html' %}
+
+
+
